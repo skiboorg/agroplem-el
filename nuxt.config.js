@@ -1,4 +1,12 @@
 export default {
+  env: {
+        img_url: 'http://localhost:8000/'
+
+    },
+  //  server: {
+  //   port: 3000, // default: 3000
+  //   host: '185.235.128.23' // default: localhost
+  // },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'agroplem-el',

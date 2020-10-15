@@ -776,7 +776,7 @@
 
         const response = await this.$axios.post(`/api/v1/item/get_image/`,{id:id})
         console.log(response)
-        let url = `http://localhost:8000/${response.data.path}`
+        let url = process.env.img_url+response.data.path
         var link = document.createElement('a');
         link.target = '_blank'
         link.href = url
