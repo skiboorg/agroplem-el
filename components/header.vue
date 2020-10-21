@@ -1,35 +1,86 @@
 <template>
- <div class="container">
-    <el-header>
-    <img  src="/logo.png" alt="">
-      <p style="visibility: hidden" class="test">123</p>
-  </el-header>
+  <div style="z-index: 100;
+    position: sticky;
+    top: -130px;" class="">
+    <div class="container">
+      <el-header>
 
- </div>
+        <img class="logo" src="/logo.png" alt="">
+        <p style="visibility: hidden" class="test">123</p>
+
+
+
+      </el-header>
+    </div>
+    <div style="box-shadow: 0 3px 4px 0 #ededed" class="">
+      <div class="container">
+        <div style="display: flex;justify-content: space-between;align-items: center;background: #ffffff">
+          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1"><nuxt-link to="/">Товары</nuxt-link></el-menu-item>
+            <el-menu-item index="2"><nuxt-link to="/sorts">Партии</nuxt-link></el-menu-item>
+
+            <el-menu-item index="3"><nuxt-link to="/equip_tests">Проверки оборудования</nuxt-link></el-menu-item>
+            <el-menu-item index="5"><nuxt-link to="/">Образцы</nuxt-link></el-menu-item>
+            <el-submenu index="4">
+              <template slot="title">База</template>
+              <el-menu-item index="4-1"><nuxt-link to="/category">Категории</nuxt-link></el-menu-item>
+              <el-menu-item index="4-2"><nuxt-link to="/subcategory">Подкатегории</nuxt-link></el-menu-item>
+              <el-menu-item index="4-3"><nuxt-link to="/suppliers">Поставщики</nuxt-link></el-menu-item>
+              <el-menu-item index="4-4"><nuxt-link to="/testers">Приемщики</nuxt-link></el-menu-item>
+              <el-menu-item index="4-5"><nuxt-link to="/quipment">Оборудование</nuxt-link></el-menu-item>
+              <el-menu-item index="4-6"><nuxt-link to="/" >Типы образцов</nuxt-link></el-menu-item>
+              <el-menu-item index="4-7"><nuxt-link to="/">Состояния образцов</nuxt-link></el-menu-item>
+            </el-submenu>
+
+          </el-menu>
+          <div class="line"></div>
+          <div class="">
+
+            <el-popover
+              placement="bottom-end"
+
+              width="300"
+              trigger="hover" >
+              <el-alert
+                style="margin-bottom: 10px"
+                type="success"
+                description="Меньше нормы колпачки 100мл ID 891283 (59 штук)">
+              </el-alert>
+              <el-alert
+
+                type="error"
+                description="Заканчиваются колбы 50мл ID 91251">
+              </el-alert>
+              <el-badge :value="1" class="item" slot="reference">
+                <el-button circle icon="el-icon-bell" ></el-button>
+              </el-badge>
+            </el-popover>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
 
 
 </template>
 
 <script>
   export default {
-
     data() {
       return {
-
-
-
+        activeIndex: '1',
+        activeIndex2: '1'
       };
     },
-
-    watch: {
-
-    },
-    mounted() {
-
-    },
     methods: {
+      handleSelect(key, keyPath) {
 
-
+      }
     }
   }
 </script>
