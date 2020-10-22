@@ -58,26 +58,58 @@
             </el-collapse-item>
 
           </el-collapse>
-          <el-table :data="equip_test" style="width: 100%">
+          <el-table :data="equipment" style="width: 100%">
 
             <el-table-column type="expand">
               <template slot-scope="props">
-                <p>Коментарий к проверке: {{ props.row.comment }}</p>
+                <el-table
+                :data="props.row.test"
+                style="width: 100%">
+                <el-table-column
+                  label="Дата"
+                  width="180">
+                  <template slot-scope="scope">
+                <p>{{new Date(scope.row.date).toLocaleDateString()}}</p>
+              </template>
+                </el-table-column>
+                <el-table-column
+                  label="Тип даты"
+                  width="180">
+                    <template slot-scope="scope">
+                <p>{{scope.row.date_type.name}}</p>
+              </template>
+                </el-table-column>
+                <el-table-column
+                  prop="event"
+                  label="Событие">
+                </el-table-column>
+                  <el-table-column
+                  prop="comment"
+                  label="Комментарий">
+                </el-table-column>
+              </el-table>
+<!--                <p>Проведенные тесты</p><br>-->
+<!--                <p v-for="test in props.row.test" :key="test.id">-->
+<!--                  Дата:{{new Date(test.date).toLocaleDateString()}}-->
+<!--                  Тип даты: {{test.date_type.name}}-->
+<!--                  Событие: {{test.event}}-->
+<!--                  Комментарий: {{test.comment}}-->
+<!--                </p>-->
               </template>
             </el-table-column>
-            <el-table-column
-              prop="equipment"
-              label="Оборудование"
-              width="150"
-              :filters="equip_filter"
-              :filter-method="filterEquipment"
-              filter-placement="bottom-end">
-              <template slot-scope="scope">
-                <el-tag
-                  :type="'info'"
-                  disable-transitions>{{scope.row.equipment.name}}</el-tag>
-              </template>
-            </el-table-column>
+<!--            <el-table-column-->
+<!--              prop="equipment"-->
+<!--              label="Оборудование"-->
+<!--              width="150"-->
+<!--              :filters="equip_filter"-->
+<!--              :filter-method="filterEquipment"-->
+<!--              filter-placement="bottom-end">-->
+<!--              <template slot-scope="scope">-->
+<!--                <el-tag-->
+<!--                  :type="'info'"-->
+<!--                  disable-transitions>{{scope.row.name}}</el-tag>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
 
             <!--            <el-table-column  label="Оборудование" >-->
             <!--              <template slot-scope="scope">-->
@@ -86,30 +118,19 @@
             <!--            </el-table-column>-->
             <el-table-column label="С/Н оборудования" >
               <template slot-scope="scope">
-                <p>{{ scope.row.equipment.iid }}</p>
+                <p>{{ scope.row.iid }}</p>
               </template>
             </el-table-column>
-
-            <el-table-column label="Дата" width="150">
-              <template slot-scope="prop">
-                <p>{{new Date(prop.row.date).toLocaleDateString()}}</p>
+            <el-table-column label="Название" >
+              <template slot-scope="scope">
+                <p>{{ scope.row.name }}</p>
               </template>
             </el-table-column>
-            <el-table-column label="Тип даты" width="150">
-              <template slot-scope="prop">
-                <p>{{prop.row.date_type.name}}</p>
+            <el-table-column label="Комментарий" >
+              <template slot-scope="scope">
+                <p>{{ scope.row.comment }}</p>
               </template>
             </el-table-column>
-            <el-table-column label="Событие" width="150">
-              <template slot-scope="prop">
-                <p>{{prop.row.event}}</p>
-              </template>
-            </el-table-column>
-
-
-
-
-
 
           </el-table>
 
@@ -172,7 +193,7 @@
 
       },
       filterEquipment(value, row) {
-        return row.equipment.id === value;
+        return row.id === value;
       },
     }
   };

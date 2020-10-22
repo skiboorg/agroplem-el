@@ -20,21 +20,23 @@
             <el-menu-item index="2"><nuxt-link to="/sorts">Партии</nuxt-link></el-menu-item>
 
             <el-menu-item index="3"><nuxt-link to="/equip_tests">Проверки оборудования</nuxt-link></el-menu-item>
-            <el-menu-item index="5"><nuxt-link to="/">Образцы</nuxt-link></el-menu-item>
+            <el-menu-item index="5"><nuxt-link to="/samples">Образцы</nuxt-link></el-menu-item>
             <el-submenu index="4">
               <template slot="title">База</template>
-              <el-menu-item index="4-1"><nuxt-link to="/category">Категории</nuxt-link></el-menu-item>
-              <el-menu-item index="4-2"><nuxt-link to="/subcategory">Подкатегории</nuxt-link></el-menu-item>
-              <el-menu-item index="4-3"><nuxt-link to="/suppliers">Поставщики</nuxt-link></el-menu-item>
-              <el-menu-item index="4-4"><nuxt-link to="/testers">Приемщики</nuxt-link></el-menu-item>
-              <el-menu-item index="4-5"><nuxt-link to="/quipment">Оборудование</nuxt-link></el-menu-item>
-              <el-menu-item index="4-6"><nuxt-link to="/" >Типы образцов</nuxt-link></el-menu-item>
-              <el-menu-item index="4-7"><nuxt-link to="/">Состояния образцов</nuxt-link></el-menu-item>
+              <el-menu-item index="4-1"><nuxt-link to="/manufacturers">Производители</nuxt-link></el-menu-item>
+              <el-menu-item index="4-2"><nuxt-link to="/category">Категории</nuxt-link></el-menu-item>
+              <el-menu-item index="4-3"><nuxt-link to="/subcategory">Подкатегории</nuxt-link></el-menu-item>
+              <el-menu-item index="4-4"><nuxt-link to="/suppliers">Поставщики</nuxt-link></el-menu-item>
+              <el-menu-item index="4-5"><nuxt-link to="/testers">Приемщики</nuxt-link></el-menu-item>
+              <el-menu-item index="4-6"><nuxt-link to="/quipment">Оборудование</nuxt-link></el-menu-item>
+              <el-menu-item index="4-7"><nuxt-link to="/sample_type" >Типы образцов</nuxt-link></el-menu-item>
+              <el-menu-item index="4-8"><nuxt-link to="/sample_state">Состояния образцов</nuxt-link></el-menu-item>
+              <el-menu-item index="4-9"><nuxt-link to="/sample_test">Испытания образцов</nuxt-link></el-menu-item>
             </el-submenu>
 
           </el-menu>
           <div class="line"></div>
-          <div class="">
+          <div style="padding-right: 20px;">
 
             <el-popover
               placement="bottom-end"

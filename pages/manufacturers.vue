@@ -1,17 +1,17 @@
 <template>
   <el-main>
     <div class="container">
-             <el-form :inline="true" :model="newForm" >
+             <el-form :inline="true" :model="newManufForm" >
             <el-form-item >
-              <el-input v-model="newForm.name" placeholder="Состояние образца"></el-input>
+              <el-input v-model="newManufForm.name" placeholder="Название производителя"></el-input>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="danger" @click="createNew">Создать состояние образца</el-button>
+              <el-button type="danger" @click="createManufacturer">Создать производителя</el-button>
             </el-form-item>
           </el-form>
           <el-table
-            :data="sample_states.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+            :data="manufacturers.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%">
             <el-table-column
               label="ID"
@@ -37,14 +37,14 @@
                   trigger="click">
                   <div style="display: flex" class="">
                     <el-input v-model="editInfo" :placeholder="scope.row.name"></el-input>
-                    <el-button type="primary" @click="updateRecord(scope.row.id,'state')">Сохранить</el-button>
+                    <el-button type="primary" @click="updateRecord(scope.row.id,'manuf')">Сохранить</el-button>
                   </div>
                   <el-button slot="reference" size="mini" >Редактировать</el-button>
                 </el-popover>
                 <el-button
                   size="mini"
                   type="danger"
-                  @click="handleDelete(scope.$index, scope.row, 'state')">Удалить</el-button>
+                  @click="handleDelete(scope.$index, scope.row, 'manuf')">Удалить</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -58,9 +58,9 @@
     async asyncData({$axios}){
 
       try{
-        const  response= await $axios.get(`/api/v1/sample_states/`)
-        const sample_states = response.data
-        return {sample_states}
+        const  response_manufacturers= await $axios.get(`/api/v1/manufacturers/`)
+        const manufacturers = response_manufacturers.data
+        return {manufacturers}
       }catch (e) {
         throw e
       }
@@ -68,7 +68,7 @@
     data() {
       return {
         editInfo:null,
-        newForm:{
+        newManufForm:{
           name:null
         },
         search: '',
@@ -80,20 +80,20 @@
         document.querySelector(".test").click()
       },
 
-      async getSamplestates(){
-        const response= await this.$axios.get(`/api/v1/sample_states/`)
-        this.sample_states = response.data
+      async getManufacturers(){
+        const response= await this.$axios.get(`/api/v1/manufacturers/`)
+        this.manufacturers = response.data
       },
 
-      async createNew(){
-        const response = await this.$axios.post('/api/v1/sample_state/create/',this.newForm)
-        this.getSamplestates()
+      async createManufacturer(){
+        const response = await this.$axios.post('/api/v1/manufacturer/create/',this.newManufForm)
+        this.getManufacturers()
       },
 
       async updateRecord(id,type,status){
-        if (type === 'state'){
-          await this.$axios.put(`/api/v1/sample_state/edit/${id}`,{'name':this.editInfo})
-          this.getSamplestates()
+        if (type === 'manuf'){
+          await this.$axios.put(`/api/v1/manufacturer/edit/${id}`,{'name':this.editInfo})
+          this.getManufacturers()
         }
         this.editInfo = null
         document.querySelector(".test").click()
@@ -107,9 +107,9 @@
       },
       async handleDelete(index, row,type) {
 
-        if (type === 'state'){
-          await this.$axios.delete(`/api/v1/sample_state/delete/${row.id}`)
-          this.getSamplestates()
+        if (type === 'manuf'){
+          await this.$axios.delete(`/api/v1/manufacturer/delete/${row.id}`)
+          this.getManufacturers()
         }
 
       }
