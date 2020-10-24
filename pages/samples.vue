@@ -162,10 +162,13 @@
               </div>
               <el-button style="margin-bottom: 5px" v-if="scope.row.status" size="mini" type="danger"  slot="reference">Закрыть</el-button>
               <el-button v-else style="margin-bottom: 5px" size="mini"  type="info" @click="updateRecord(scope.row.id,'sample',true)"  slot="reference">Открыть</el-button>
-            </el-popover><el-button
+            </el-popover>
+            <el-button
+              style="margin-bottom: 5px"
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row, 'sample')">Удалить</el-button>
+            <el-button  size="mini" icon="el-icon-camera" @click="getImage(scope.row.id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -251,6 +254,18 @@
       },
       filterTag(value, row) {
         return row.status === value;
+      },
+      async getImage(id){
+        const response = await this.$axios.post(`/api/v1/sample/get_image/`,{id:id})
+        console.log(response)
+        let url = process.env.img_url+response.data.path
+        var link = document.createElement('a');
+        link.target = '_blank'
+        link.href = url
+        link.download = url
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       },
 
 
