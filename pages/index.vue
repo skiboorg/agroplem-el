@@ -189,17 +189,10 @@
               </div>
               <el-button slot="reference" size="mini" >Добавить коментарий</el-button>
             </el-popover>
-            <el-popover
-              placement="top"
-              width="190">
-              <p style="margin-bottom: 10px">Точно списать?</p>
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="closePopover">Нет</el-button>
-                <el-button type="danger" size="mini" @click="updateRecord(scope.row.id,'item',false)">Да</el-button>
-              </div>
-              <el-button v-if="scope.row.status" size="mini" type="danger"  slot="reference">Списать</el-button>
+
+              <el-button v-if="scope.row.status" size="mini" type="danger" @click="updateRecord(scope.row.id,'item',false)" >Списать</el-button>
               <el-button v-else size="mini"  type="danger" @click="updateRecord(scope.row.id,'item',true)"  slot="reference">Отменить списание</el-button>
-            </el-popover>
+
             <el-button  size="mini" icon="el-icon-camera" @click="getImage(scope.row.id)"></el-button>
           </template>
         </el-table-column>

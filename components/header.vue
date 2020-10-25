@@ -19,7 +19,7 @@
             <el-menu-item index="1"><nuxt-link to="/">Товары</nuxt-link></el-menu-item>
             <el-menu-item index="2"><nuxt-link to="/sorts">Партии</nuxt-link></el-menu-item>
 
-            <el-menu-item index="3"><nuxt-link to="/equip_tests">Проверки оборудования</nuxt-link></el-menu-item>
+            <el-menu-item index="3"><nuxt-link to="/equip_tests">Оборудование</nuxt-link></el-menu-item>
             <el-menu-item index="5"><nuxt-link to="/samples">Образцы</nuxt-link></el-menu-item>
             <el-submenu index="4">
               <template slot="title">База</template>

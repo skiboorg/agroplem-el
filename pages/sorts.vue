@@ -12,7 +12,7 @@
             <el-table-column
               label="ID"
               prop="iid"
-              width="100">
+              width="50">
             </el-table-column>
             <el-table-column
               label="Название"
@@ -21,7 +21,7 @@
             <el-table-column
               label="Кол-во едениц"
               prop="item_number"
-              width="80">
+              >
             </el-table-column>
             <el-table-column label="Срок годности" width="150">
               <template slot-scope="prop">
@@ -30,7 +30,7 @@
             </el-table-column>
             <el-table-column
               label="Дата приемки"
-              width="150"
+
             >
               <template slot-scope="prop">
                 <p>{{new Date(prop.row.created).toLocaleDateString()}}</p>
@@ -52,7 +52,7 @@
             <el-table-column
               prop="cat_filter"
               label="Подкатегория"
-              width="100"
+
               :filters="subcat_filter"
               :filter-method="filterSubCatSort"
               filter-placement="bottom-end">
@@ -65,7 +65,7 @@
             <el-table-column
               prop="test_filter"
               label="Приемщик"
-              width="100"
+
               :filters="test_filter"
               :filter-method="filterTestSort"
               filter-placement="bottom-end">
@@ -78,7 +78,7 @@
             <el-table-column
               prop="supp_filter"
               label="Поставщик"
-              width="100"
+
               :filters="supp_filter"
               :filter-method="filterSuppSort"
               filter-placement="bottom-end">
@@ -90,7 +90,7 @@
             </el-table-column>
 
             <el-table-column
-              width="200"
+
               align="right">
               <template slot="header" slot-scope="scope">
                 <el-input
@@ -99,11 +99,19 @@
                   placeholder="Поиск партии"/>
               </template>
               <template slot-scope="scope">
+                <el-popover
+              placement="top"
+              width="190">
+              <p style="margin-bottom: 10px">Точно удалить?</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="closePopover">Нет</el-button>
+                <el-button type="danger" size="mini" @click="handleDelete(scope.$index, scope.row, 'sort')">Да</el-button>
+              </div>
+              <el-button  size="mini" type="danger" icon="el-icon-delete" circle  slot="reference"></el-button>
 
-                <el-button
-                  size="mini"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row, 'sort')">Удалить</el-button>
+            </el-popover>
+
+
               </template>
             </el-table-column>
           </el-table>
@@ -182,6 +190,7 @@
         if (type === 'sort'){
           await this.$axios.delete(`/api/v1/sort/delete/${row.id}`)
           this.getSort()
+          this.closePopover()
 
         }
       },
