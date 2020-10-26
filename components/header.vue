@@ -1,7 +1,7 @@
 <template>
   <div style="z-index: 100;
     position: sticky;
-    top: -130px;" class="">
+    top: -75px;" class="">
     <div class="container">
       <el-header>
 
@@ -53,10 +53,11 @@
                 type="error"
                 description="Заканчиваются колбы 50мл ID 91251">
               </el-alert>
-              <el-badge :value="1" class="item" slot="reference">
-                <el-button circle icon="el-icon-bell" ></el-button>
+              <el-badge style="margin-right: 10px" :value="1" class="item" slot="reference">
+                <el-button  circle icon="el-icon-bell" ></el-button>
               </el-badge>
             </el-popover>
+             <el-button circle icon="el-icon-user" ></el-button>
 
           </div>
         </div>

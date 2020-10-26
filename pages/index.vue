@@ -71,7 +71,9 @@
                 placeholder="Дата приемки">
               </el-date-picker>
             </el-form-item>
-
+            <el-form-item>
+              <el-checkbox v-model="newItemForm.status">В наличии</el-checkbox>
+            </el-form-item>
             <el-form-item>
               <el-button type="danger" @click="createItems">СОЗДАТЬ</el-button>
             </el-form-item>
@@ -153,13 +155,14 @@
           prop="status"
           label="Статус"
           width="150"
-          :filters="[{ text: 'В наличии', value: true }, { text: 'Списан', value: false }]"
+          :filters="[{ text: 'В наличии', value: true }, { text: 'Списан', value: false }, { text: 'Ожидание', value: null }]"
           :filter-method="filterTag"
           filter-placement="bottom-end">
           <template slot-scope="scope">
+<!--            :type="scope.row.status === true ? 'success' : 'danger'"-->
             <el-tag
-              :type="scope.row.status === true ? 'success' : 'danger'"
-              disable-transitions>{{scope.row.status ? 'В наличии' : 'Списан'}}</el-tag>
+              :type="scope.row.status === true ? 'success' : scope.row.status === false ? 'danger' : 'warning'"
+              disable-transitions>{{scope.row.status === true ? 'В наличии' : scope.row.status === false ? 'Списан' : 'Ожидание'}}</el-tag>
           </template>
         </el-table-column>
 
@@ -190,8 +193,9 @@
               <el-button slot="reference" size="mini" >Добавить коментарий</el-button>
             </el-popover>
 
-              <el-button v-if="scope.row.status" size="mini" type="danger" @click="updateRecord(scope.row.id,'item',false)" >Списать</el-button>
-              <el-button v-else size="mini"  type="danger" @click="updateRecord(scope.row.id,'item',true)"  slot="reference">Отменить списание</el-button>
+              <el-button v-if="scope.row.status === true" size="mini" type="danger" @click="updateRecord(scope.row.id,'item',false)" >Списать</el-button>
+              <el-button v-if="scope.row.status === false" size="mini"  type="danger" @click="updateRecord(scope.row.id,'item',true)"  slot="reference">Отменить списание</el-button>
+              <el-button v-if="scope.row.status === null" size="mini"  type="warning" @click="updateRecord(scope.row.id,'item',true)"  slot="reference">Отменить ожидание</el-button>
 
             <el-button  size="mini" icon="el-icon-camera" @click="getImage(scope.row.id)"></el-button>
           </template>
@@ -220,7 +224,7 @@
         const subcategories = response_subcategories.data
         const sorts = response_sorts.data
         const items = response_items.data
-
+        console.log(items)
         let cat_filter = []
         let subcat_filter = []
 
@@ -250,6 +254,7 @@
           subcategory: '',
           supplier: '',
           tester: '',
+          status: true,
           good_time:null,
           created_at:null,
           comment:null,

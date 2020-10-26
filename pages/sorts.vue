@@ -72,7 +72,7 @@
               <template slot-scope="scope">
                 <el-tag
                   :type="'info'"
-                  disable-transitions>{{scope.row.tester.name}}</el-tag>
+                  disable-transitions>{{scope.row.tester ? scope.row.tester.name : 'Не указан'}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column
@@ -141,9 +141,9 @@
 
         let cat_filter = []
         let subcat_filter = []
-        let test_filter = []
+        let test_filter = [{text:'Не указан',value:null}]
         let supp_filter = []
-
+        console.log(test_filter)
         for (let i of categories){
           cat_filter.push({text:i.name,value:i.id})
         }
@@ -215,8 +215,12 @@
         return row.sort.supplier.id === value;
       },
       filterTestSort(value, row) {
+        if (row.tester){
+          return row.tester.id === value;
+        }else {
+          return row.tester === null
+        }
 
-        return row.tester.id === value;
       },
       filterEquipment(value, row) {
         return row.equipment.id === value;
