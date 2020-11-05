@@ -91,7 +91,7 @@
 
             <el-table-column
 
-              align="right">
+              align="right" width="190">
               <template slot="header" slot-scope="scope">
                 <el-input
                   v-model="search"
@@ -99,7 +99,27 @@
                   placeholder="Поиск партии"/>
               </template>
               <template slot-scope="scope">
-                <el-popover
+                <div style="display: flex">
+                  <el-popover
+              placement="top"
+              width="290"
+                  style="margin-right: 5px">
+              <p style="margin-bottom: 10px">Выберите статус?</p>
+              <el-radio-group v-model="status"  size="mini">
+              <el-radio-button label="Списан"></el-radio-button>
+              <el-radio-button label="Ожидание"></el-radio-button>
+              <el-radio-button label="В наличии"></el-radio-button>
+
+    </el-radio-group>
+                    {{status}}
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="closePopover">Отмена</el-button>
+                <el-button type="danger" size="mini" @click="changeStatus(scope.row)">Ок</el-button>
+              </div>
+              <el-button  size="mini" type="warning"   slot="reference">Изменить статус</el-button>
+
+            </el-popover>
+                     <el-popover
               placement="top"
               width="190">
               <p style="margin-bottom: 10px">Точно удалить?</p>
@@ -110,6 +130,9 @@
               <el-button  size="mini" type="danger" icon="el-icon-delete" circle  slot="reference"></el-button>
 
             </el-popover>
+
+                </div>
+
 
 
               </template>
@@ -166,6 +189,7 @@
     data() {
       return {
         editInfo:null,
+        status:null,
         search: '',
       }
 
@@ -229,8 +253,10 @@
         const property = column['property'];
         return row[property] === value;
       },
-      changeItemStatus(value,row){
-        console.log(value,row)
+      async changeStatus(row){
+        let response = await this.$axios.post(`/api/v1/items/changestatus/${row.id}`,{status:this.status})
+        this.closePopover()
+        this.status = null
       },
 
 

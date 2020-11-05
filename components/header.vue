@@ -39,8 +39,10 @@
           <div style="padding-right: 20px;">
 
             <el-popover placement="bottom-end"  width="300"  trigger="hover" >
-              <el-alert style="margin-bottom: 5px" v-for="alert in alerts" :key="new (Date)" :closable="false" type="warning" :description="'Заканчиваются '+alert.name"></el-alert>
-              <el-badge style="margin-right: 10px" :value="alerts.length" class="item" slot="reference">
+              <el-alert style="margin-bottom: 5px" v-for="alert in alerts" :key="alert.id" :closable="false" type="warning" :description="'Заканчиваются '+alert.name"></el-alert>
+              <el-alert style="margin-bottom: 5px" v-for="alert in sortAlerts" :key="alert.id" :closable="false" :type="alert.type"
+                        :description="`Срок хранения ${alert.name} заканчивается ${alert.date}`"></el-alert>
+              <el-badge style="margin-right: 10px" :value="alerts.length + sortAlerts.length" class="item" slot="reference">
                 <el-button  circle icon="el-icon-bell" ></el-button>
               </el-badge>
             </el-popover>
@@ -68,21 +70,26 @@
         activeIndex2: '1',
         alerts:[
 
+        ],
+        sortAlerts:[
+
         ]
       };
     },
     watch: {
       '$route.path': function (val) {
         this.checkSubcats()
+        this.checkSorts()
 
       }
     },
     mounted() {
        this.checkSubcats()
         this.intervalid1 = setInterval(() => {
-        this.checkSubcats()
+        //this.checkSubcats()
+          //this.checkSorts()
 
-    }, 3000);
+    }, 60000);
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -92,6 +99,11 @@
         let response = await this.$axios.get(`/api/v1/subcategory/check/all/`)
             console.log(response)
         this.alerts= response.data
+      },
+       async checkSorts(){
+        let response = await this.$axios.get(`/api/v1/sort/check/`)
+            console.log(response)
+        this.sortAlerts= response.data
       }
     }
   }
