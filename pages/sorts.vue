@@ -19,7 +19,7 @@
               prop="name">
             </el-table-column>
             <el-table-column
-              label="Кол-во едениц"
+              label="Кол-во единиц"
               prop="item_number"
               >
             </el-table-column>

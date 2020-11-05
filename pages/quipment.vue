@@ -38,7 +38,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="Серийный номер"
+          label="СН оборудование"
           prop="iid">
         </el-table-column>
         <el-table-column
