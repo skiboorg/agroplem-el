@@ -13,6 +13,9 @@
                   </el-select>
                 </el-form-item>
         <el-form-item >
+          <el-input v-model="newCatForm.min_number" placeholder="Минимальное число"></el-input>
+        </el-form-item>
+        <el-form-item >
           <el-input v-model="newCatForm.name" placeholder="Название подкатегории"></el-input>
         </el-form-item>
 
@@ -45,6 +48,10 @@
           label="Название"
           prop="name">
         </el-table-column>
+        <el-table-column
+          label="Минимальное число"
+          prop="min_number">
+        </el-table-column>
 
         <el-table-column
           align="right">
@@ -60,9 +67,10 @@
               placement="top"
               width="400"
               trigger="click">
-              <div style="display: flex" class="">
-                <el-input v-model="editInfo" :placeholder="scope.row.name"></el-input>
-                <el-button type="primary" @click="updateRecord(scope.row.id,'cat')">Сохранить</el-button>
+              <div style="display: flex; flex-direction: column" class="">
+                <el-input style="margin-bottom: 5px" v-model="editInfo" :placeholder="scope.row.name"></el-input>
+                <el-input style="margin-bottom: 5px" v-model="editInfoNum" :placeholder="scope.row.min_number"></el-input>
+                <el-button type="primary" @click="updateRecord(scope.row.id,'cat',scope.row)">Сохранить</el-button>
               </div>
               <el-button slot="reference" size="mini" >Редактировать</el-button>
             </el-popover>
@@ -97,9 +105,11 @@
     data() {
       return {
         editInfo:null,
+        editInfoNum:null,
         newCatForm:{
           name:null,
-          category:null
+          category:null,
+          min_number:null
         },
         search: '',
       }
@@ -120,9 +130,19 @@
         this.getCategories()
       },
 
-      async updateRecord(id,type){
+      async updateRecord(id,type,row){
         if (type === 'cat'){
-          await this.$axios.put(`/api/v1/subcategory/edit/${id}`,{'name':this.editInfo})
+          if (this.editInfoNum && this.editInfo){
+            await this.$axios.put(`/api/v1/subcategory/edit/${id}`,{'name':this.editInfo,'min_number':this.editInfoNum})
+          }
+          if (this.editInfo){
+            await this.$axios.put(`/api/v1/subcategory/edit/${id}`,{'name':this.editInfo,'min_number':row.editInfoNum})
+          }
+          if (this.editInfoNum ){
+            await this.$axios.put(`/api/v1/subcategory/edit/${id}`,{'name':row.editInfo,'min_number':this.editInfoNum})
+          }
+          this.editInfo = null
+          this.editInfoNum = null
           this.getCategories()
         }
 

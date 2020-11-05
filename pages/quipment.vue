@@ -11,6 +11,15 @@
             <el-form-item >
               <el-input v-model="newEquipForm.iid" placeholder="Серийный номер"></el-input>
             </el-form-item>
+             <el-form-item>
+              <el-date-picker
+                v-model="newEquipForm.start_work"
+                type="date"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
+                placeholder="Ввод в эксплуатацию">
+              </el-date-picker>
+            </el-form-item>
 
             <el-form-item>
               <el-button type="danger" @click="createEquipment">Создать оборудование</el-button>
@@ -46,6 +55,13 @@
           prop="name">
         </el-table-column>
         <el-table-column
+          label="Ввод в эксплуатацию"
+          >
+           <template slot-scope="prop">
+                <p>{{new Date(prop.row.start_work).toLocaleDateString()}}</p>
+              </template>
+        </el-table-column>
+        <el-table-column
           align="right">
           <template slot="header" slot-scope="scope">
             <el-input
@@ -72,6 +88,7 @@
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row, 'equip')">Удалить</el-button>
+             <el-button  size="mini" icon="el-icon-camera" @click="getImage(scope.row.id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -121,6 +138,7 @@
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row, 'date')">Удалить</el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -155,7 +173,8 @@
         newEquipForm:{
           name:null,
           iid:null,
-          comment:null
+          comment:null,
+          start_work:null
         },
         newDateForm:{
           name:null,
@@ -220,7 +239,19 @@
           this.getDate()
         }
 
-      }
+      },
+      async getImage(id){
+        const response = await this.$axios.post(`/api/v1/equip/get_image/`,{id:id})
+        console.log(response)
+        let url = process.env.img_url+response.data.path
+        var link = document.createElement('a');
+        link.target = '_blank'
+        link.href = url
+        link.download = url
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
 
 
     }

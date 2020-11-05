@@ -207,60 +207,7 @@
   width="30%"
   center>
    <el-form :inline="true" :model="editForm" >
-        <el-form-item >
-          <el-input v-model="editForm.serial_number" placeholder="Номер серии"></el-input>
-        </el-form-item>
-        <el-form-item >
-          <el-select v-model="editForm.type"  placeholder="Выберите тип">
-            <el-option
-              v-for="item in sample_types"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="editForm.state"  placeholder="Выберите состояние">
-            <el-option
-              v-for="item in sample_states"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="editForm.expirement" :multiple="true" placeholder="Выберите испытания">
-            <el-option
-              v-for="item in sample_expiriments"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="editForm.manufacturer"  placeholder="Выберите производителя" style="width: 220px">
-            <el-option
-              v-for="item in manufacturers"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-date-picker
-            style="width: 175px"
-            v-model="editForm.date_get_sample"
-            type="date"
-            format="yyyy/MM/dd"
-            value-format="yyyy-MM-dd"
-            placeholder="Дата получения">
-          </el-date-picker>
 
-        </el-form-item>
 
         <el-form-item style="width: 100%">
           <el-input
@@ -340,13 +287,7 @@
           go_bad:null,
         },
           editForm:{
-          iid:null,
-          type:null,
-          expirement:null,
-          manufacturer:null,
-          serial_number:null,
           comment:null,
-          date_get_sample:null,
           arrived:null,
           done:null,
           too_small:null,

@@ -116,7 +116,7 @@
             <!--                <p>{{ scope.row.equipment.name }}</p>-->
             <!--              </template>-->
             <!--            </el-table-column>-->
-            <el-table-column label="С/Н оборудования" >
+            <el-table-column label="Серийный номер оборудования" >
               <template slot-scope="scope">
                 <p>{{ scope.row.iid }}</p>
               </template>
@@ -126,6 +126,13 @@
                 <p>{{ scope.row.name }}</p>
               </template>
             </el-table-column>
+            <el-table-column
+          label="Ввод в эксплуатацию"
+          >
+           <template slot-scope="prop">
+                <p>{{new Date(prop.row.start_work).toLocaleDateString()}}</p>
+              </template>
+        </el-table-column>
             <el-table-column label="Комментарий" >
               <template slot-scope="scope">
                 <p>{{ scope.row.comment }}</p>

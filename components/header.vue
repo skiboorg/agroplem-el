@@ -38,22 +38,9 @@
           <div class="line"></div>
           <div style="padding-right: 20px;">
 
-            <el-popover
-              placement="bottom-end"
-
-              width="300"
-              trigger="hover" >
-              <el-alert
-                style="margin-bottom: 10px"
-                type="success"
-                description="Меньше нормы колпачки 100мл ID 891283 (59 штук)">
-              </el-alert>
-              <el-alert
-
-                type="error"
-                description="Заканчиваются колбы 50мл ID 91251">
-              </el-alert>
-              <el-badge style="margin-right: 10px" :value="1" class="item" slot="reference">
+            <el-popover placement="bottom-end"  width="300"  trigger="hover" >
+              <el-alert style="margin-bottom: 5px" v-for="alert in alerts" :key="new (Date)" :closable="false" type="warning" :description="'Заканчиваются '+alert.name"></el-alert>
+              <el-badge style="margin-right: 10px" :value="alerts.length" class="item" slot="reference">
                 <el-button  circle icon="el-icon-bell" ></el-button>
               </el-badge>
             </el-popover>
@@ -74,15 +61,37 @@
 
 <script>
   export default {
+
     data() {
       return {
         activeIndex: '1',
-        activeIndex2: '1'
+        activeIndex2: '1',
+        alerts:[
+
+        ]
       };
+    },
+    watch: {
+      '$route.path': function (val) {
+        this.checkSubcats()
+
+      }
+    },
+    mounted() {
+       this.checkSubcats()
+        this.intervalid1 = setInterval(() => {
+        this.checkSubcats()
+
+    }, 3000);
     },
     methods: {
       handleSelect(key, keyPath) {
 
+      },
+      async checkSubcats(){
+        let response = await this.$axios.get(`/api/v1/subcategory/check/all/`)
+            console.log(response)
+        this.alerts= response.data
       }
     }
   }

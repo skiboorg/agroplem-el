@@ -132,9 +132,8 @@
           :filter-method="filterCat"
           filter-placement="bottom-end">
           <template slot-scope="scope">
-            <el-tag
-              :type="'info'"
-              disable-transitions>{{scope.row.sort.subcategory.category.name}}</el-tag>
+            <p>{{scope.row.sort.subcategory.category.name}}</p>
+
           </template>
         </el-table-column>
         <el-table-column
@@ -145,9 +144,8 @@
           :filter-method="filterSubCatSort"
           filter-placement="bottom-end">
           <template slot-scope="scope">
-            <el-tag
-              :type="'info'"
-              disable-transitions>{{scope.row.sort.subcategory.name}}</el-tag>
+              <p>{{scope.row.sort.subcategory.name}}</p>
+
           </template>
         </el-table-column>
 
@@ -193,9 +191,9 @@
               <el-button slot="reference" size="mini" >Добавить коментарий</el-button>
             </el-popover>
 
-              <el-button v-if="scope.row.status === true" size="mini" type="danger" @click="updateRecord(scope.row.id,'item',false)" >Списать</el-button>
-              <el-button v-if="scope.row.status === false" size="mini"  type="danger" @click="updateRecord(scope.row.id,'item',true)"  slot="reference">Отменить списание</el-button>
-              <el-button v-if="scope.row.status === null" size="mini"  type="warning" @click="updateRecord(scope.row.id,'item',true)"  slot="reference">Отменить ожидание</el-button>
+              <el-button v-if="scope.row.status === true" size="mini" type="danger" @click="updateRecord(scope.row.id,'item',false,scope.row.sort.subcategory.id)" >Списать</el-button>
+              <el-button v-if="scope.row.status === false" size="mini"  type="danger" @click="updateRecord(scope.row.id,'item',true,scope.row.sort.subcategory.id)"  slot="reference">Отменить списание</el-button>
+              <el-button v-if="scope.row.status === null" size="mini"  type="warning" @click="updateRecord(scope.row.id,'item',true,scope.row.sort.subcategory.id)"  slot="reference">Отменить ожидание</el-button>
 
             <el-button  size="mini" icon="el-icon-camera" @click="getImage(scope.row.id)"></el-button>
           </template>
@@ -210,6 +208,7 @@
     async asyncData({$axios}){
 
       try{
+
         const  response_suppliers= await $axios.get(`/api/v1/suppliers/`)
         const  response_testers= await $axios.get(`/api/v1/testers/`)
         const  response_categories= await $axios.get(`/api/v1/categories/`)
@@ -299,13 +298,17 @@
 
       },
 
-      async updateRecord(id,type,status){
+      async updateRecord(id,type,status,sub_id){
 
         if (type === 'item'){
           if(this.editInfo){
             await this.$axios.put(`/api/v1/item/edit/${id}`,{'comment':this.editInfo})
+
+
           }else {
             await this.$axios.put(`/api/v1/item/edit/${id}`,{'status':status})
+            let response = await this.$axios.get(`/api/v1/subcategory/check/${sub_id}`)
+            console.log(response)
           }
           this.getItems()
         }
