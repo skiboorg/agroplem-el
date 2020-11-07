@@ -11,6 +11,9 @@
             <el-form-item >
               <el-input v-model="newEquipForm.iid" placeholder="Серийный номер"></el-input>
             </el-form-item>
+            <el-form-item >
+              <el-input v-model="newEquipForm.manufactor" placeholder="Производитель"></el-input>
+            </el-form-item>
              <el-form-item>
               <el-date-picker
                 v-model="newEquipForm.start_work"
@@ -53,6 +56,10 @@
         <el-table-column
           label="Название"
           prop="name">
+        </el-table-column>
+        <el-table-column
+          label="Производитель"
+          prop="manufactor">
         </el-table-column>
         <el-table-column
           label="Ввод в эксплуатацию"
@@ -119,6 +126,7 @@
           label="Название"
           prop="name">
         </el-table-column>
+
         <el-table-column
           align="right">
 
@@ -174,7 +182,9 @@
           name:null,
           iid:null,
           comment:null,
-          start_work:null
+          start_work:null,
+          manufactor:null,
+
         },
         newDateForm:{
           name:null,
