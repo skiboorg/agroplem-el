@@ -253,7 +253,7 @@
           subcategory: '',
           supplier: '',
           tester: '',
-          status: true,
+          status: null,
           good_time:null,
           created_at:null,
           comment:null,

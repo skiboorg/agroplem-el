@@ -202,7 +202,7 @@
         </el-table-column>
       </el-table>
       <el-dialog
-  title="Warning"
+  title="Редактирование образца"
   :visible.sync="centerDialogVisible"
   width="30%"
   center>

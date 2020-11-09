@@ -50,7 +50,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="СН оборудование"
+          label="Серийный номер оборудования"
           prop="iid">
         </el-table-column>
         <el-table-column

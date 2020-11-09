@@ -2,142 +2,171 @@
   <el-main>
     <div class="container">
       <el-table
-            :data="sorts.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-            style="width: 100%">
-            <el-table-column type="expand">
-              <template slot-scope="props">
-                <p>Коментарий: {{ props.row.comment }}</p>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="ID"
-              prop="iid"
-              width="50">
-            </el-table-column>
-            <el-table-column
-              label="Название"
-              prop="name">
-            </el-table-column>
-            <el-table-column
-              label="Кол-во единиц"
-              prop="item_number"
-              >
-            </el-table-column>
-            <el-table-column label="Срок годности" width="150">
-              <template slot-scope="prop">
-                <p>{{new Date(prop.row.good_time).toLocaleDateString()}}</p>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="Дата приемки"
-
-            >
-              <template slot-scope="prop">
-                <p>{{new Date(prop.row.created).toLocaleDateString()}}</p>
-              </template>
-            </el-table-column>
+        :data="sorts.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        style="width: 100%">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <p>Коментарий: {{ props.row.comment }}</p>
+          </template>
+        </el-table-column>
         <el-table-column
-              prop="cat_filter"
-              label="Категория"
-              width="100"
-              :filters="cat_filter"
-              :filter-method="filterCatSort"
-              filter-placement="bottom-end">
-              <template slot-scope="scope">
-                <el-tag
-                  :type="'info'"
-                  disable-transitions>{{scope.row.subcategory.category.name}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="cat_filter"
-              label="Подкатегория"
+          label="ID"
+          prop="iid"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          label="Название"
+          prop="name">
+        </el-table-column>
+        <el-table-column
+          label="Кол-во единиц"
+          prop="item_number"
+        >
+        </el-table-column>
+        <el-table-column label="Срок годности" width="150">
+          <template slot-scope="prop">
+            <p>{{new Date(prop.row.good_time).toLocaleDateString()}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="Дата приемки">
+          <template slot-scope="prop">
+            <p>{{new Date(prop.row.created).toLocaleDateString()}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="cat_filter"
+          label="Категория"
+          width="100"
+          :filters="cat_filter"
+          :filter-method="filterCatSort"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              :type="'info'"
+              disable-transitions>{{scope.row.subcategory.category.name}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="cat_filter"
+          label="Подкатегория"
 
-              :filters="subcat_filter"
-              :filter-method="filterSubCatSort"
-              filter-placement="bottom-end">
-              <template slot-scope="scope">
-                <el-tag
-                  :type="'info'"
-                  disable-transitions>{{scope.row.subcategory.name}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="test_filter"
-              label="Приемщик"
+          :filters="subcat_filter"
+          :filter-method="filterSubCatSort"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              :type="'info'"
+              disable-transitions>{{scope.row.subcategory.name}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="test_filter"
+          label="Приемщик"
 
-              :filters="test_filter"
-              :filter-method="filterTestSort"
-              filter-placement="bottom-end">
-              <template slot-scope="scope">
-                <el-tag
-                  :type="'info'"
-                  disable-transitions>{{scope.row.tester ? scope.row.tester.name : 'Не указан'}}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="supp_filter"
-              label="Поставщик"
+          :filters="test_filter"
+          :filter-method="filterTestSort"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              :type="'info'"
+              disable-transitions>{{scope.row.tester ? scope.row.tester.name : 'Не указан'}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="supp_filter"
+          label="Поставщик"
 
-              :filters="supp_filter"
-              :filter-method="filterSuppSort"
-              filter-placement="bottom-end">
-              <template slot-scope="scope">
-                <el-tag
-                  :type="'info'"
-                  disable-transitions>{{scope.row.supplier.name}}</el-tag>
-              </template>
-            </el-table-column>
+          :filters="supp_filter"
+          :filter-method="filterSuppSort"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              :type="'info'"
+              disable-transitions>{{scope.row.supplier.name}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
 
-            <el-table-column
+          align="right" width="190">
+          <template slot="header" slot-scope="scope">
+            <el-input
+              v-model="search"
+              size="mini"
+              placeholder="Поиск партии"/>
+          </template>
+          <template slot-scope="scope">
+            <div style="display: flex; justify-content: space-between">
+               <el-button  size="mini" type="warning" icon="el-icon-edit" @click="editRow(scope.row)"></el-button>
+              <el-popover
+                placement="top"
+                width="190">
+                <p style="margin-bottom: 10px">Точно удалить?</p>
+                <div style="text-align: right; margin: 0">
+                  <el-button size="mini" type="text" @click="closePopover">Нет</el-button>
+                  <el-button type="danger" size="mini" @click="handleDelete(scope.$index, scope.row, 'sort')">Да</el-button>
+                </div>
+                <el-button  size="mini" type="danger" icon="el-icon-delete" circle  slot="reference"></el-button>
 
-              align="right" width="190">
-              <template slot="header" slot-scope="scope">
-                <el-input
-                  v-model="search"
-                  size="mini"
-                  placeholder="Поиск партии"/>
-              </template>
-              <template slot-scope="scope">
-                <div style="display: flex">
-                  <el-popover
-              placement="top"
-              width="290"
-                  style="margin-right: 5px">
-              <p style="margin-bottom: 10px">Выберите статус?</p>
-              <el-radio-group v-model="status"  size="mini">
+              </el-popover>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-dialog
+        title="Редактирование партии"
+        :visible.sync="centerDialogVisible"
+        width="30%"
+        center>
+        <el-form :inline="true" :model="editForm" >
+
+          <el-form-item>
+            <p style="margin-bottom: 10px">Выберите статус?</p>
+            <el-radio-group v-model="editForm.status"  size="mini">
               <el-radio-button label="Списан"></el-radio-button>
               <el-radio-button label="Ожидание"></el-radio-button>
               <el-radio-button label="В наличии"></el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item style="width: 100%">
+            <el-input
+              style="width: 100%"
+              class="dfd"
+              type="textarea"
+              autosize
+              :autosize="{ minRows: 3, maxRows: 10}"
+              placeholder="Коментарий"
+              v-model="editForm.comment">
+            </el-input>
+          </el-form-item>
+          <el-form-item >
+              <el-input v-model="editForm.iid" placeholder="Серийный номер партии"></el-input>
+            </el-form-item>
+          <el-form-item>
+              <el-date-picker
+                v-model="editForm.good_time"
+                type="date"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
+                placeholder="Срок годности">
+              </el-date-picker>
+            </el-form-item>
+           <el-form-item>
+              <el-date-picker
+                v-model="editForm.created"
+                type="date"
+                format="yyyy/MM/dd"
+                value-format="yyyy-MM-dd"
+                placeholder="Дата приемки">
+              </el-date-picker>
+            </el-form-item>
 
-    </el-radio-group>
-                    {{status}}
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="closePopover">Отмена</el-button>
-                <el-button type="danger" size="mini" @click="changeStatus(scope.row)">Ок</el-button>
-              </div>
-              <el-button  size="mini" type="warning"   slot="reference">Изменить статус</el-button>
-
-            </el-popover>
-                     <el-popover
-              placement="top"
-              width="190">
-              <p style="margin-bottom: 10px">Точно удалить?</p>
-              <div style="text-align: right; margin: 0">
-                <el-button size="mini" type="text" @click="closePopover">Нет</el-button>
-                <el-button type="danger" size="mini" @click="handleDelete(scope.$index, scope.row, 'sort')">Да</el-button>
-              </div>
-              <el-button  size="mini" type="danger" icon="el-icon-delete" circle  slot="reference"></el-button>
-
-            </el-popover>
-
-                </div>
+          <el-form-item>
+            <el-button type="danger" @click="changeStatus">Обновить партию</el-button>
+          </el-form-item>
 
 
-
-              </template>
-            </el-table-column>
-          </el-table>
+        </el-form>
+      </el-dialog>
 
     </div>
   </el-main>
@@ -189,12 +218,27 @@
     data() {
       return {
         editInfo:null,
-        status:null,
+        centerDialogVisible: false,
         search: '',
+        sortID:null,
+        editForm: {
+          status: null,
+          comment:null,
+          iid:null,
+          good_time:null,
+          created:null,
+        },
       }
 
     },
     methods: {
+      editRow(row){
+        this.centerDialogVisible = true
+        this.sortID = row.id
+        console.log(row)
+        this.editForm = row
+
+      },
       closePopover(){
         document.querySelector(".test").click()
       },
@@ -253,10 +297,16 @@
         const property = column['property'];
         return row[property] === value;
       },
-      async changeStatus(row){
-        let response = await this.$axios.post(`/api/v1/items/changestatus/${row.id}`,{status:this.status})
-        this.closePopover()
-        this.status = null
+      async changeStatus(){
+
+        let response = await this.$axios.post(`/api/v1/sort/update/${this.sortID}`,this.editForm)
+        console.log(response)
+        if (response.status === 200){
+          console.log('200')
+          this.closePopover()
+        }
+
+        //this.editForm = null
       },
 
 
