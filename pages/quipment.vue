@@ -65,7 +65,8 @@
           label="Ввод в эксплуатацию"
           >
            <template slot-scope="prop">
-                <p>{{new Date(prop.row.start_work).toLocaleDateString()}}</p>
+                <p v-if="prop.row.start_work">{{new Date(prop.row.start_work).toLocaleDateString()}}</p>
+                <p v-else>-</p>
               </template>
         </el-table-column>
         <el-table-column
