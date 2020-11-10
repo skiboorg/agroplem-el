@@ -87,6 +87,13 @@
                 prop="comment"
                 label="Комментарий">
               </el-table-column>
+              <el-table-column
+                prop=""
+                label="">
+                <template slot-scope="scope">
+                  <p> <el-button  size="mini" type="danger" icon="el-icon-delete" circle  slot="reference" @click="deleteTest(scope.row)"></el-button></p>
+                </template>
+              </el-table-column>
             </el-table>
             <!--                <p>Проведенные тесты</p><br>-->
             <!--                <p v-for="test in props.row.test" :key="test.id">-->
@@ -199,10 +206,20 @@
       closePopover(){
         document.querySelector(".test").click()
       },
+      async deleteTest(row){
+        console.log(row)
+        const  response_equip_test= await this.$axios.delete(`/api/v1/equip_test/delete/${row.id}`)
+        this.getEqups()
+      },
       async getEqupTest(){
         const  response_equip_test= await this.$axios.get(`/api/v1/equip_tests/`)
 
         this.equip_test = response_equip_test.data
+      },
+      async getEqups(){
+        const  response= await this.$axios.get(`/api/v1/equips/`)
+
+        this.equipment = response.data
       },
       async createEqupTest(){
         const response = await this.$axios.post('/api/v1/equip_test/create/',this.newEqupTestForm)
