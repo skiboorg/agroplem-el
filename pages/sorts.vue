@@ -20,7 +20,7 @@
         </el-table-column>
         <el-table-column
           label="Кол-во единиц"
-          prop="item_number"
+          prop="status_ok_number"
         >
         </el-table-column>
         <el-table-column label="Срок годности" width="150">
@@ -195,7 +195,7 @@
         let subcat_filter = []
         let test_filter = [{text:'Не указан',value:null}]
         let supp_filter = []
-        console.log(test_filter)
+        console.log('sorts',sorts)
         for (let i of categories){
           cat_filter.push({text:i.name,value:i.id})
         }
